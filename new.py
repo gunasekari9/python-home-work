@@ -1,6 +1,11 @@
-name=input("Enter your name: ")
-age=input("Enter your age: ")
+from openai import openAI
 
-print("Hello, " + name + "! You are " + age + " years old.")
+client =openAI(
+    api_key ='PASTE_YOUR_API_KEY_HERE'
 
-
+)
+response=client.response.creat(
+    model='gpt4o mini',
+    input="can i know about cricket player ms dhoni"
+)
+print(response.output_text)
