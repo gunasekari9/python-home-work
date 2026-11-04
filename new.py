@@ -9,19 +9,9 @@ client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 history = []
 
-print("Chatbot started. Type 'stop' to exit.")
 
-while True:
-    user_input = input("User: ").strip()
-
-    if user_input == "":
-        continue
-
-    if user_input.lower() == "stop":
-        print("Exiting here.......")
-        break
-
-    history.append({"role": "user", "content": user_input})
+def chatbot(message: str) -> str:
+    history.append({"role": "user", "content": message})
 
     try:
         response = client.chat.completions.create(
@@ -29,8 +19,8 @@ while True:
             messages=history
         )
         res = response.choices[0].message.content
-        print("AI:", res)
         history.append({"role": "assistant", "content": res})
+        return res
     except groq.GroqError as e:
-        print("ERROR:", e)
         history.pop()
+        return f"ERROR: {e}"
