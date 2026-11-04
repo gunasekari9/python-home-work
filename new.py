@@ -1,8 +1,11 @@
+import os
+from dotenv import load_dotenv
 from groq import Groq
+import groq
 
-client = Groq(
-    api_key="YOUR_API"
-    )
+load_dotenv(override=True)
+
+client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 history = []
 
@@ -28,6 +31,6 @@ while True:
         res = response.choices[0].message.content
         print("AI:", res)
         history.append({"role": "assistant", "content": res})
-    except Exception as e:
+    except groq.GroqError as e:
         print("ERROR:", e)
         history.pop()
