@@ -7,12 +7,17 @@ load_dotenv(override=True)
 
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
-history = []
+conversation = {}
 
 
-def chatbot(message: str) -> str:
-    history.append({"role": "user", "content": message})
-    del history[:-10]  # keep only the last 10 messages
+def chatbot(user_input: str, user_id: str = "default") -> str:
+    if user_id not in conversation:
+        conversation[user_id] = []
+
+    history = conversation[user_id]
+
+    history.append({"role": "user", "content": user_input})
+    del history[:-10]  # keep only the last 10 message
 
     try:
         response = client.chat.completions.create(

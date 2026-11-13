@@ -3,3 +3,6 @@ python-dotenv
 streamlit
 fastapi
 uvicorn
+langchain
+langchain-groq
+langsmith
